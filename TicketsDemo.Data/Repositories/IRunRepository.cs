@@ -10,8 +10,9 @@ namespace TicketsDemo.Data.Repositories
     public interface IRunRepository
     {
         void CreateRun(Run run);
-        void DeleteRun(Run runId);
+        void DeleteRun(int runId);
         List<Run> GetRuns(DateTime start, DateTime end,int? trainId = null);
         Run GetRunDetails(int runId);
+        PlaceInRun GetPlaceInRun(int placeInRunId);
     }
 }

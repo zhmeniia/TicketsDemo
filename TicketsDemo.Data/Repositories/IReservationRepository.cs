@@ -12,5 +12,7 @@ namespace TicketsDemo.Data.Repositories
         void Create(Reservation reservation);
         void Update(Reservation reservation);
         Reservation Get(int id);
+        List<Reservation> GetAllForPlaceInRun(int placeInRunId);
+        List<Reservation> GetAllForRun(int runId);
     }
 }

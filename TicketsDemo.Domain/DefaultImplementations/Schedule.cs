@@ -13,12 +13,18 @@ namespace TicketsDemo.Domain.DefaultImplementations
     {
         public IRunRepository _runRepo;
         public ITrainRepository _trainRepo;
+        public IReservationRepository _reservationRepository;
         public IReservationService _resService;
 
-        public Schedule(IRunRepository runRepo, ITrainRepository trainRepo, IReservationService resService)
+        public Schedule(
+            IRunRepository runRepo, 
+            ITrainRepository trainRepo, 
+            IReservationRepository reservationRepository, 
+            IReservationService resService)
         {
             _runRepo = runRepo;
             _trainRepo = trainRepo;
+            _reservationRepository = reservationRepository;
             _resService = resService;
         }
 
@@ -44,15 +50,15 @@ namespace TicketsDemo.Domain.DefaultImplementations
 
             var train = _trainRepo.GetTrainDetails(trainId);
 
-            var run = new Run() {Train=train, TrainId = train.Id, Date = date,Places = new List<PlaceInRun>() };
+            var run = new Run() { TrainId = train.Id, Date = date, Places = new List<PlaceInRun>() };
             
 
             foreach (var carriage in train.Carriages) {
                 foreach (var place in carriage.Places) {
                     var newPlaceInRun = new PlaceInRun()
                     {
-                        PlaceId = place.Id,
-                        Place = place,
+                        Number = place.Number,
+                        CarriageNumber = carriage.Number,
                         Run = run
                     };
                     run.Places.Add(newPlaceInRun);
@@ -66,13 +72,14 @@ namespace TicketsDemo.Domain.DefaultImplementations
 
 
         public void DeleteRun(int runId) {
-            var runToDelete = _runRepo.GetRunDetails(runId);
-            if (runToDelete.Places.Any(p => p.Reservations != null && _resService.PlaceIsOccupied(p)))
+            var allReservations = _reservationRepository.GetAllForRun(runId);
+
+            if (allReservations.Any(p => _resService.IsActive(p)))
             {
-                throw new InvalidOperationException(String.Format("run {0} can not be deleted becouse some of it's places has been already occupied",runId));
+                throw new InvalidOperationException(String.Format("run {0} can not be deleted becouse some of it's places has been reserved", runId));
             }
 
-            _runRepo.DeleteRun(runToDelete);
+            _runRepo.DeleteRun(runId);
         }
     }
 }

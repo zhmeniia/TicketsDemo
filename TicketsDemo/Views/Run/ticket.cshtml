@@ -1,16 +1,16 @@
-﻿@model TicketsDemo.Data.Entities.Ticket
+﻿@model TicketsDemo.Models.TicketViewModel
 
 @{
     ViewBag.Title = "Ticket details";
 }
 
-<h2>Train @Model.Reservation.PlaceInRun.Run.Train.Number (@Model.Reservation.PlaceInRun.Run.Train.StartLocation - @Model.Reservation.PlaceInRun.Run.Train.EndLocation)</h2>
-<h4>Run starts at @Model.Reservation.PlaceInRun.Run.Date.ToShortDateString()</h4>
+<h2>Train @Model.Train.Number (@Model.Train.StartLocation - @Model.Train.EndLocation)</h2>
+<h4>Run starts at @Model.Date.ToShortDateString()</h4>
 
-<h2>ticket is for place @Model.Reservation.PlaceInRun.Place.Number</h2>
+<h2>ticket is for place @Model.PlaceNumber</h2>
 
 <h4>Price:</h4>
-@foreach (var pc in Model.PriceComponents) { 
+@foreach (var pc in Model.Ticket.PriceComponents) { 
     <span>@pc.Name:@pc.Value$</span><br />
 }
 

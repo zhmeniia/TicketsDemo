@@ -14,25 +14,30 @@ namespace TicketsDemo.Domain.DefaultImplementations
         private ITicketRepository _tickRepo;
         private IPriceCalculationStrategy _priceStr;
         private IReservationRepository _resRepo;
-        private ILogger _logger;
+        private IRunRepository _runRepository;
 
         public TicketService(ITicketRepository tickRepo, IReservationRepository resRepo,
-            IPriceCalculationStrategy priceCalculationStrategy, ILogger logger)
+            IPriceCalculationStrategy priceCalculationStrategy, IRunRepository runRepository)
         {
             _tickRepo = tickRepo;
             _resRepo = resRepo;
             _priceStr = priceCalculationStrategy;
-            _logger = logger;
+            _runRepository = runRepository;
         }
 
-        public Ticket CreateTicket(int reservationId ,string fName,string lName)
+        public Ticket CreateTicket(int reservationId, string fName, string lName)
         {
             var res = _resRepo.Get(reservationId);
+
+            if (res.TicketId != null) {
+                throw new InvalidOperationException("ticket has been already issued to this reservation, unable to create another one");
+            }
+
+            var placeInRun = _runRepository.GetPlaceInRun(res.PlaceInRunId);
 
             var newTicket = new Ticket()
             {
                 ReservationId = res.Id,
-                Reservation = res,
                 CreatedDate = DateTime.Now,
                 FirstName = fName,
                 LastName = lName,
@@ -40,10 +45,9 @@ namespace TicketsDemo.Domain.DefaultImplementations
                 PriceComponents = new List<PriceComponent>()
             };
 
-            newTicket.PriceComponents = _priceStr.CalculatePrice(res);
+            newTicket.PriceComponents = _priceStr.CalculatePrice(placeInRun);
 
             _tickRepo.Create(newTicket);
-            _logger.Log(String.Format("ticket {0} created",newTicket), LogSeverity.Info);
             return newTicket;
         }
 
@@ -51,13 +55,11 @@ namespace TicketsDemo.Domain.DefaultImplementations
         {
             if (ticket.Status == TicketStatusEnum.Sold)
             {
-                _logger.Log(String.Format("ticket {0} is already sold",ticket), LogSeverity.Info);
                 throw new ArgumentException("ticket is already sold");
             }
 
             ticket.Status = TicketStatusEnum.Sold;
             _tickRepo.Update(ticket);
-            _logger.Log(String.Format("ticket {0} sold", ticket), LogSeverity.Info);
         }
     }
 }

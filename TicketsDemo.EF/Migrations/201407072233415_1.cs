@@ -76,7 +76,7 @@ namespace TicketsDemo.EF.Migrations
                 "dbo.Ticket",
                 c => new
                     {
-                        Id = c.Int(nullable: false),
+                        Id = c.Int(nullable: false, identity: true),
                         Status = c.Int(nullable: false),
                         FirstName = c.String(),
                         LastName = c.String(),

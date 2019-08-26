@@ -137,6 +137,7 @@
     <Compile Include="Models\ReservationViewModel.cs" />
     <Compile Include="Models\CreateTicketModel.cs" />
     <Compile Include="Models\RunViewModel.cs" />
+    <Compile Include="Models\TicketViewModel.cs" />
     <Compile Include="Models\TrainDetailsViewModel.cs" />
     <Compile Include="Models\IndexPageViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

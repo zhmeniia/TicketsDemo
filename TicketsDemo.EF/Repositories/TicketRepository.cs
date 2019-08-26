@@ -21,13 +21,10 @@ namespace TicketsDemo.EF.Repositories
         {
             using (var ctx = new TicketsContext())
             {
-                if (ticket.Reservation != null)
-                {
-                    ctx.Reservations.Attach(ticket.Reservation);
-                    ctx.Entry(ticket.Reservation).State = System.Data.Entity.EntityState.Unchanged;
-                }
-
+                //var priceComponents = ticket.PriceComponents;
+                //ticket.PriceComponents = null;
                 ctx.Tickets.Add(ticket);
+
                 ctx.SaveChanges();
             }
         }
@@ -45,24 +42,9 @@ namespace TicketsDemo.EF.Repositories
         public Ticket Get(int id) {
             using (var ctx = new TicketsContext())
             {
-                var ticket =  ctx.Tickets
-                    .Include("PriceComponents")
-                    .Include("Reservation")
-                    .Include("Reservation.PlaceInRun")
-                    .Include("Reservation.PlaceInRun.Run").Where(r => r.Id == id).Single();
-
-                var train = _trainRepo.GetTrainDetails(ticket.Reservation.PlaceInRun.Run.TrainId);
-                
-                foreach(var car in train.Carriages){
-                    var place = car.Places.FirstOrDefault(p => p.Id == ticket.Reservation.PlaceInRun.PlaceId);
-                    if(place != null){
-                        ticket.Reservation.PlaceInRun.Place = place;
-                    }
-                }
-                ticket.Reservation.PlaceInRun.Run.Train = train;
-                return ticket;
+                return ctx.Tickets
+                    .Include("PriceComponents").Where(r => r.Id == id).Single();
             }
         }
-
     }
 }

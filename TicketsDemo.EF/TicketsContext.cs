@@ -18,7 +18,9 @@ namespace TicketsDemo.EF
         public DbSet<Run> Runs {get;set;}
         public DbSet<PlaceInRun> PlacesInRuns {get;set;}
         public DbSet<Reservation> Reservations {get;set;}
-        public DbSet<Ticket> Tickets {get;set;}
+        public DbSet<Ticket> Tickets {get;set; }
+
+        public DbSet<PriceComponent> PriceComponents { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -27,17 +29,12 @@ namespace TicketsDemo.EF
             modelBuilder.Entity<Train>().HasMany(t => t.Carriages).WithRequired(c => c.Train);
 
             modelBuilder.Entity<Carriage>().HasMany(c => c.Places).WithRequired(p => p.Carriage);
-
-            modelBuilder.Entity<Run>().Ignore(r => r.Train);
-            modelBuilder.Entity<PlaceInRun>().Ignore(r => r.Place);
-            modelBuilder.Entity<PlaceInRun>().HasRequired(p => p.Place).WithMany();
-            
             
             modelBuilder.Entity<PlaceInRun>().HasRequired(p => p.Run).WithMany(r => r.Places);
 
-            modelBuilder.Entity<Reservation>().HasRequired(r => r.PlaceInRun).WithMany(p => p.Reservations);
+            modelBuilder.Entity<Ticket>().HasMany(x => x.PriceComponents).WithRequired(x => x.Ticket);
 
-            modelBuilder.Entity<Reservation>().HasOptional(r => r.Ticket).WithRequired(t => t.Reservation);
+            modelBuilder.Entity<Reservation>();
         } 
 
     }

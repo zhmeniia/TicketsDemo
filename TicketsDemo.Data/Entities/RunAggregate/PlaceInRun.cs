@@ -9,10 +9,9 @@ namespace TicketsDemo.Data.Entities
     public class PlaceInRun
     {
         public int Id { get; set; }
-        public int PlaceId { get; set; }
-        //public Place Place { get; set; }
+        public int Number { get; set; }
+        public int CarriageNumber { get; set; }
         public int RunId { get; set; }
         public Run Run { get; set; }
-        public List<Reservation> Reservations {get;set;}
     }
 }

@@ -15,7 +15,6 @@ namespace TicketsDemo.Data.Entities
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int ReservationId { get; set; }
-        public Reservation Reservation { get; set; }
         public List<PriceComponent> PriceComponents { get; set; }
         public DateTime CreatedDate { get; set; }
     }

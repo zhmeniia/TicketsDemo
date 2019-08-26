@@ -79,13 +79,6 @@ namespace TicketsDemo.App_Start
 
             //todo factory
             kernel.Bind<IPriceCalculationStrategy>().To<DefaultPriceCalculationStrategy>();
-            //kernel.Bind<IPriceCalculationStrategy>().ToMethod(x =>
-            //    new MyPriceCalculationStrategy(15, 20));
-
-            //kernel.Bind<ICSVReader>().To<CSVReader>();
-
-            //binding my own logger
-            //kernel.Bind<ILogger>().To<FileLogger>();
             kernel.Bind<ILogger>().ToMethod(x =>
                 new FileLogger(HttpContext.Current.Server.MapPath("~/App_Data")));
         }        

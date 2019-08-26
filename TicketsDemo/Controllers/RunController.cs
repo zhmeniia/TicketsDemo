@@ -13,40 +13,51 @@ namespace TicketsDemo.Controllers
     {
         private ITicketRepository _tickRepo;
         private IRunRepository _runRepo;
+        private IReservationRepository _reservationRepo;
         private IReservationService _resServ;
         private ITicketService _tickServ;
         private IPriceCalculationStrategy _priceCalc;
+        private ITrainRepository _trainRepo;
 
         public RunController(ITicketRepository tick, IRunRepository run, 
             IReservationService resServ,
-            ITicketService tickServ,IPriceCalculationStrategy priceCalcStrategy) {
+            ITicketService tickServ,
+            IPriceCalculationStrategy priceCalcStrategy,
+            IReservationRepository reservationRepo,
+            ITrainRepository trainRepo) {
             _tickRepo = tick;
             _runRepo = run;
             _resServ = resServ;
             _tickServ = tickServ;
             _priceCalc = priceCalcStrategy;
+            _reservationRepo = reservationRepo;
+            _trainRepo = trainRepo;
         }
 
         public ActionResult Index(int id) {
             var run = _runRepo.GetRunDetails(id);
             var model = new RunViewModel() { 
                  Run = run,
-                 ReservedPlaces = run.Places.Where(p => _resServ.PlaceIsOccupied(p)).Select(p => p.Id).ToList()
+                 // lol
+                 ReservedPlaces = run.Places.Where(p => _resServ.PlaceIsOccupied(p)).Select(p => p.Id).ToList(),
+                 Train = _trainRepo.GetTrainDetails(run.TrainId),
             };
 
             return View(model);
         }
 
-        public ActionResult ReservePlace(int placeId,int runId) {
-            var run = _runRepo.GetRunDetails(runId);
-            var place = run.Places.Single(p => p.Id == placeId);
+        public ActionResult ReservePlace(int placeId) {
+            var place = _runRepo.GetPlaceInRun(placeId);
 
             var reservation = _resServ.Reserve(place);
 
             var model = new ReservationViewModel()
             {
                 Reservation = reservation,
-                PriceComponents = _priceCalc.CalculatePrice(reservation)
+                PlaceInRun = place,
+                PriceComponents = _priceCalc.CalculatePrice(place),
+                Date = place.Run.Date,
+                Train = _trainRepo.GetTrainDetails(place.Run.TrainId),
             };
 
             return View(model);
@@ -61,7 +72,17 @@ namespace TicketsDemo.Controllers
 
         public ActionResult Ticket(int id)
         {
-            return View(_tickRepo.Get(id));
+            var ticket = _tickRepo.Get(id);
+            var reservation = _reservationRepo.Get(ticket.Id);
+            var placeInRun = _runRepo.GetPlaceInRun(reservation.PlaceInRunId);
+
+            var ticketWM = new TicketViewModel();
+            ticketWM.Ticket = ticket;
+            ticketWM.PlaceNumber = placeInRun.Number;
+            ticketWM.Date = placeInRun.Run.Date;
+            ticketWM.Train = _trainRepo.GetTrainDetails(placeInRun.Run.TrainId);
+
+            return View(ticketWM);
         }
 
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data.Entity;
 using System.Text;
 using System.Threading.Tasks;
 using TicketsDemo.Data.Entities;
@@ -23,18 +24,12 @@ namespace TicketsDemo.EF.Repositories
         {
             using (var ctx = new TicketsContext())
             {
-                if (run.Train != null) //технический момент - указание не пересоздавать train
-                {
-                    ctx.Trains.Attach(run.Train);
-                    ctx.Entry(run.Train).State = System.Data.Entity.EntityState.Unchanged;
-                }
-
                 ctx.Runs.Add(run);
                 ctx.SaveChanges();
             }
         }
 
-        public void DeleteRun(Data.Entities.Run runId)
+        public void DeleteRun(int runId)
         {
             using (var ctx = new TicketsContext())
             {
@@ -56,31 +51,16 @@ namespace TicketsDemo.EF.Repositories
         {
             using (var ctx = new TicketsContext())
             {
-                var run = ctx.Runs.Include("Places")
-                    //.Include("Places.Place")
-                    .Include("Places.Reservations")
-                    .Include("Places.Reservations.Ticket")
-                    //.Include("Train")
-                    //.Include("Train.Carriages")
+                return ctx.Runs.Include("Places")
                     .Where(r => r.Id == runId).Single();
-
-                var train = _trainRepo.GetTrainDetails(run.TrainId);
-                run.Train = train;
-
-                var placeIdToPlace = new Dictionary<int, Place>();
-                foreach (var car in train.Carriages)
-                {
-                    foreach (var plc in car.Places)
-                    {
-                        placeIdToPlace.Add(plc.Id, plc);
-                    }
-                }
-
-                foreach (var plc in run.Places) {
-                    plc.Place = placeIdToPlace[plc.PlaceId];
-                } 
-                
-                return run;
+            }
+        }
+        public PlaceInRun GetPlaceInRun(int placeInRunId) {
+            using (var ctx = new TicketsContext())
+            {
+                return ctx.PlacesInRuns
+                    .Include(x => x.Run)
+                    .Include(x => x.Run.Places).Single(x => x.Id == placeInRunId);
             }
         }
 

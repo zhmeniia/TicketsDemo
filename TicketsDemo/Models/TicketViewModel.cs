@@ -6,10 +6,14 @@ using TicketsDemo.Data.Entities;
 
 namespace TicketsDemo.Models
 {
-    public class RunViewModel
+    public class TicketViewModel
     {
+        public Ticket Ticket { get; set; }
+
         public Train Train { get; set; }
-        public Run Run { get; set; }
-        public List<int> ReservedPlaces { get; set; }
+
+        public DateTime Date { get; set; }
+
+        public int PlaceNumber { get; set; }
     }
 }

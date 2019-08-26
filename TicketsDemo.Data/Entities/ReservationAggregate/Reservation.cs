@@ -15,6 +15,5 @@ namespace TicketsDemo.Data.Entities
         // UNLINK. IT IS ANOTHER AGGREGATE.
         //public PlaceInRun PlaceInRun { get; set; }
         public int? TicketId { get; set; }
-        //public Ticket Ticket { get; set; }
     }
 }

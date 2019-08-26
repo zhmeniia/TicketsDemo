@@ -12,12 +12,10 @@ namespace TicketsDemo.Domain.DefaultImplementations
     public class ReservationService : IReservationService
     {
         IReservationRepository _resRepo;
-        private ILogger _logger;
 
-        public ReservationService(IReservationRepository resRepo, ILogger logger)
+        public ReservationService(IReservationRepository resRepo)
         {
             _resRepo = resRepo;
-            _logger = logger;
         }
 
 
@@ -31,11 +29,9 @@ namespace TicketsDemo.Domain.DefaultImplementations
                 Start = DateTime.Now,
                 End = DateTime.Now.AddMinutes(20),
                 PlaceInRunId = place.Id,
-                PlaceInRun = place
             };
 
             _resRepo.Create(createIt);
-            _logger.Log(String.Format("reservation {0} created", createIt), LogSeverity.Info);
 
             return createIt;
         }
@@ -44,17 +40,22 @@ namespace TicketsDemo.Domain.DefaultImplementations
         {
             reservation.End = DateTime.Now;
             _resRepo.Update(reservation);
-            //_logger.Log(String.Format("reservation {0} removed", reservation), LogSeverity.Info);
+        }
+
+        public bool IsActive(Reservation reservation) {
+            return reservation.TicketId.HasValue || reservation.Start < DateTime.Now && reservation.End > DateTime.Now;
         }
 
         public bool PlaceIsOccupied(PlaceInRun place)
         {
-            if(place.Reservations == null)
+            var reservationsForCurrentPlace = _resRepo.GetAllForPlaceInRun(place.Id);
+            if (reservationsForCurrentPlace == null)
                 return false;
 
             var activeReservationFound = false;
-            foreach(var res in place.Reservations){
-                if(res.Ticket != null || (res.Start < DateTime.Now && res.End > DateTime.Now))
+            foreach(var res in reservationsForCurrentPlace)
+            {
+                if(IsActive(res))
                 {
                     activeReservationFound = true;
                 }

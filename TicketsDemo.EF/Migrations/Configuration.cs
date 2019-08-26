@@ -48,18 +48,22 @@ namespace TicketsDemo.EF.Migrations
                           Places = placeGenerator(),
                           Type = CarriageType.SecondClassSleeping,
                           DefaultPrice = 100m,
+                          Number = 1,
                       },new Carriage() { 
                           Places = placeGenerator(),
                           Type = CarriageType.SecondClassSleeping,
                           DefaultPrice = 100m,
+                          Number = 2,
                       },new Carriage() { 
                           Places = placeGenerator(),
                           Type = CarriageType.FirstClassSleeping,
                           DefaultPrice = 120m,
+                          Number = 3,
                       },new Carriage() { 
                           Places = placeGenerator(),
                           Type = CarriageType.FirstClassSleeping,
                           DefaultPrice = 130m,
+                          Number = 4,
                       } 
                   }
               },
@@ -73,14 +77,17 @@ namespace TicketsDemo.EF.Migrations
                           Places = placeGenerator(),
                           Type = CarriageType.Sedentary,
                           DefaultPrice = 40m,
+                          Number = 1,
                       },new Carriage() { 
                           Places = placeGenerator(),
                           Type = CarriageType.Sedentary,
                           DefaultPrice = 40m,
+                          Number = 2,
                       },new Carriage() { 
                           Places = placeGenerator(),
                           Type = CarriageType.Sedentary,
                           DefaultPrice = 40m,
+                          Number = 3,
                       } 
                   }
               }

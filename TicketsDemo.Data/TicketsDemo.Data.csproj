@@ -43,7 +43,7 @@
     <Compile Include="Entities\TrainAggregate\Place.cs" />
     <Compile Include="Entities\RunAggregate\PlaceInRun.cs" />
     <Compile Include="Entities\TicketAggregate\PriceComponent.cs" />
-    <Compile Include="Entities\Reservation.cs" />
+    <Compile Include="Entities\ReservationAggregate\Reservation.cs" />
     <Compile Include="Entities\RunAggregate\Run.cs" />
     <Compile Include="Entities\TicketAggregate\Ticket.cs" />
     <Compile Include="Entities\TrainAggregate\Train.cs" />
@@ -53,6 +53,7 @@
     <Compile Include="Repositories\ITicketRepository.cs" />
     <Compile Include="Repositories\ITrainRepository.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

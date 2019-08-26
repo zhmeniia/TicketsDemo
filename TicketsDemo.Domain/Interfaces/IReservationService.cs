@@ -12,5 +12,6 @@ namespace TicketsDemo.Domain.Interfaces
         Reservation Reserve(PlaceInRun place);
         void RemoveReservation(Reservation reservation);
         bool PlaceIsOccupied(PlaceInRun place);
+        bool IsActive(Reservation reservation);
     }
 }

@@ -4,7 +4,7 @@
     ViewBag.Title = "Run details";
 }
 
-<h2>Train @Model.Run.Train.Number (@Model.Run.Train.StartLocation - @Model.Run.Train.EndLocation)</h2>
+<h2>Train @Model.Train.Number (@Model.Train.StartLocation - @Model.Train.EndLocation)</h2>
 <h4>Run starts at @Model.Run.Date.ToShortDateString()</h4>
 
 <h2>Available Places</h2>
@@ -13,9 +13,9 @@
 {
     if (Model.ReservedPlaces.Contains(place.Id))
     {
-        @place.Place.Number;
+        @place.Number;
     }else{
-        <a href="@Url.Action("ReservePlace",new{placeId=place.Id,runId=Model.Run.Id})">@place.Place.Number</a>
+        <a href="@Url.Action("ReservePlace",new{placeId=place.Id})">@place.Number</a>
     }
 }
 

@@ -4,10 +4,10 @@
     ViewBag.Title = "Run details";
 }
 
-<h2>Train @Model.Reservation.PlaceInRun.Run.Train.Number (@Model.Reservation.PlaceInRun.Run.Train.StartLocation - @Model.Reservation.PlaceInRun.Run.Train.EndLocation)</h2>
-<h4>Run starts at @Model.Reservation.PlaceInRun.Run.Date.ToShortDateString()</h4>
+<h2>Train @Model.Train.Number (@Model.Train.StartLocation - @Model.Train.EndLocation)</h2>
+<h4>Run starts at @Model.Date.ToShortDateString()</h4>
 
-<h2>the place @Model.Reservation.PlaceInRun.Place.Number is reserved for you for</h2>
+<h2>the place @Model.PlaceInRun.Number in carriage @Model.PlaceInRun.CarriageNumber is reserved for you for</h2>
 
 <h4>Price:</h4>
 

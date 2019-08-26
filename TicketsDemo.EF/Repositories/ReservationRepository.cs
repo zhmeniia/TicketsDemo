@@ -11,22 +11,26 @@ namespace TicketsDemo.EF.Repositories
 {
     public class ReservationRepository : IReservationRepository
     {
-         ITrainRepository _trainRepo;
-
-         public ReservationRepository(ITrainRepository trainRepo)
+        public List<Reservation> GetAllForRun(int runId)
         {
-            _trainRepo = trainRepo;
+            using (var ctx = new TicketsContext())
+            {
+                var placesInRunIds = ctx.Runs.SelectMany(x => x.Places.Select(p => p.Id));
+                return ctx.Reservations.Where(x => placesInRunIds.Contains(x.PlaceInRunId)).ToList();
+            }
         }
 
+        public List<Reservation> GetAllForPlaceInRun(int placeInRunId)
+        {
+            using (var ctx = new TicketsContext())
+            {
+                return ctx.Reservations.Where(x => x.PlaceInRunId == placeInRunId).ToList();
+            }
+        }
         public void Create(Reservation reservation)
         {
             using (var ctx = new TicketsContext())
             {
-                if (reservation.PlaceInRun != null) {
-                    ctx.PlacesInRuns.Attach(reservation.PlaceInRun);
-                    ctx.Entry(reservation.PlaceInRun).State = System.Data.Entity.EntityState.Unchanged;
-                }
-
                 ctx.Reservations.Add(reservation);
                 ctx.SaveChanges();
             }
@@ -46,27 +50,7 @@ namespace TicketsDemo.EF.Repositories
         {
             using (var ctx = new TicketsContext())
             {
-                var res = ctx.Reservations.Include(x => x.PlaceInRunId)
-                    .Include("PlaceInRun")
-                    //.Include("PlaceInRun.Place")
-                    .Include("PlaceInRun.Run")
-                    //.Include("PlaceInRun.Run.Train")
-                    //.Include("PlaceInRun.Place.Carriage")
-                    .Where(r => r.Id == id).Single();
-
-                var train = _trainRepo.GetTrainDetails(res.PlaceInRun.Run.TrainId);
-
-                foreach (var car in train.Carriages)
-                {
-                    var place = car.Places.FirstOrDefault(p => p.Id == res.PlaceInRun.PlaceId);
-                    if (place != null)
-                    {
-                        res.PlaceInRun.Place = place;
-                    }
-                }
-                res.PlaceInRun.Run.Train = train;
-
-                return res;
+                return ctx.Reservations.FirstOrDefault(p => p.Id == id);
             }
         }
     }
