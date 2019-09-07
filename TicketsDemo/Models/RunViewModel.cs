@@ -9,7 +9,13 @@ namespace TicketsDemo.Models
     public class RunViewModel
     {
         public Train Train { get; set; }
-        public Run Run { get; set; }
+
+        public DateTime RunDate { get; set; }
+
+        public Dictionary<int, Carriage> Carriages { get; set; }
+
+        public Dictionary<int, List<PlaceInRun>> PlacesByCarriage { get; set; }
+
         public List<int> ReservedPlaces { get; set; }
     }
 }

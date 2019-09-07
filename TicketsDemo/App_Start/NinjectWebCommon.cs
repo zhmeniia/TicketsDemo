@@ -67,9 +67,6 @@ namespace TicketsDemo.App_Start
             kernel.Bind<ITicketRepository>().To<TicketRepository>();
             kernel.Bind<ITrainRepository>().To<TrainRepository>();
 
-            //kernel.Bind<ITrainRepository>().ToMethod(x => 
-            //    new CSVTrainRepository(HttpContext.Current.Server.MapPath("~/App_Data"),x.Kernel.Get<ICSVReader>()));
-
             kernel.Bind<IRunRepository>().To<RunRepository>();
             kernel.Bind<IReservationRepository>().To<ReservationRepository>();
 

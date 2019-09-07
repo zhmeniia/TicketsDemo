@@ -5,18 +5,27 @@
 }
 
 <h2>Train @Model.Train.Number (@Model.Train.StartLocation - @Model.Train.EndLocation)</h2>
-<h4>Run starts at @Model.Run.Date.ToShortDateString()</h4>
+<h4>Run starts at @Model.RunDate.ToShortDateString()</h4>
 
 <h2>Available Places</h2>
 
-@foreach (var place in Model.Run.Places)
+@foreach (var carriageNumber in Model.PlacesByCarriage.Keys)
 {
-    if (Model.ReservedPlaces.Contains(place.Id))
-    {
-        @place.Number;
-    }else{
-        <a href="@Url.Action("ReservePlace",new{placeId=place.Id})">@place.Number</a>
-    }
+    var placesInCarriage = Model.PlacesByCarriage[carriageNumber];
+    <div> 
+        <h4> Carriage @carriageNumber, @Model.Carriages[carriageNumber].Type</h4>
+        @foreach (var place in placesInCarriage)
+        {
+            if (Model.ReservedPlaces.Contains(place.Id))
+            {
+                @place.Number;
+            }
+            else
+            {
+            <a href="@Url.Action("ReservePlace", new { placeId = place.Id })">@place.Number</a>
+            }
+        }
+    </div>
 }
 
 

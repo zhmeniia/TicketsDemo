@@ -20,7 +20,7 @@
 
 <h2>Create new Run</h2>
 @foreach (var date in Model.AvailableDates) { 
-    <a href="@Url.Action("CreateRun",new {trainId = Model.Train.Id,date=date})">at @date.ToShortDateString()</a>
+    <a href="@Url.Action("CreateRun",new {trainId = Model.Train.Id,date=date})">at @date.ToShortDateString()</a> <br />
 }
 
 

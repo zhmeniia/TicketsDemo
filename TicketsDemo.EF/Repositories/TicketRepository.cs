@@ -10,19 +10,14 @@ namespace TicketsDemo.EF.Repositories
 {
     public class TicketRepository : ITicketRepository
     {
-        ITrainRepository _trainRepo;
-
-        public TicketRepository(ITrainRepository trainRepo)
+        public TicketRepository()
         {
-            _trainRepo = trainRepo;
         }
 
         public void Create(Data.Entities.Ticket ticket)
         {
             using (var ctx = new TicketsContext())
             {
-                //var priceComponents = ticket.PriceComponents;
-                //ticket.PriceComponents = null;
                 ctx.Tickets.Add(ticket);
 
                 ctx.SaveChanges();

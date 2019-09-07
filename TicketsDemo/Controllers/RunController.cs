@@ -36,11 +36,13 @@ namespace TicketsDemo.Controllers
 
         public ActionResult Index(int id) {
             var run = _runRepo.GetRunDetails(id);
-            var model = new RunViewModel() { 
-                 Run = run,
-                 // lol
-                 ReservedPlaces = run.Places.Where(p => _resServ.PlaceIsOccupied(p)).Select(p => p.Id).ToList(),
-                 Train = _trainRepo.GetTrainDetails(run.TrainId),
+            var train = _trainRepo.GetTrainDetails(run.TrainId);
+            var model = new RunViewModel() {
+                RunDate = run.Date,
+                Carriages = train.Carriages.ToDictionary(x => x.Number),
+                PlacesByCarriage = run.Places.GroupBy(x => x.CarriageNumber).ToDictionary(x => x.Key, x => x.ToList()),
+                ReservedPlaces = run.Places.Where(p => _resServ.PlaceIsOccupied(p)).Select(p => p.Id).ToList(),
+                Train = train,
             };
 
             return View(model);
