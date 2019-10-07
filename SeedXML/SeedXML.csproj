@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CE5BD17A-0CAC-4408-A56C-6DA365DD3BA1}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>SeedXML</RootNamespace>
+    <AssemblyName>SeedXML</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TicketsDemo.Data\TicketsDemo.Data.csproj">
+      <Project>{c3a581a6-f841-4600-b87d-ba4bd3000e7a}</Project>
+      <Name>TicketsDemo.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TicketsDemo.Domain\TicketsDemo.Domain.csproj">
+      <Project>{360abf3d-281e-409c-afcf-3d34f026678e}</Project>
+      <Name>TicketsDemo.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TicketsDemo.EF\TicketsDemo.EF.csproj">
+      <Project>{e9437256-3145-47bf-81a3-c69fd4de95f4}</Project>
+      <Name>TicketsDemo.EF</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TicketsDemoXML\TicketsDemoXML.csproj">
+      <Project>{aa14b9a2-19f6-4e3a-b432-60b4d3d920bf}</Project>
+      <Name>TicketsDemoXML</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TicketsDemo\TicketsDemo.csproj">
+      <Project>{0051472d-73aa-4357-aa0f-766f9167044e}</Project>
+      <Name>TicketsDemo</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
