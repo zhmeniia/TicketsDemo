@@ -12,7 +12,8 @@ namespace TicketsDemoXML
 {
     public class TicketsContextXML
     {
-        public IEnumerable<Train> Trains { get; set; } 
+        public List<Train> Trains { get; set; } 
+        
 
         // тут буде колекція якась
         public TicketsContextXML()
@@ -20,7 +21,7 @@ namespace TicketsDemoXML
             // тут буде зчитування файла
             XmlSerializer serializer = new XmlSerializer(typeof(List<Train>));
 
-            using (FileStream stream = File.OpenRead("Trains.xml"))
+            using (FileStream stream = File.OpenRead("C:/Users/Admin/Desktop/TicketsDemo-master/TicketsDemo-master/TicketsDemoXML/bin/Debug/Trains.xml"))
             {
                 Trains = (List<Train>)serializer.Deserialize(stream);
             }

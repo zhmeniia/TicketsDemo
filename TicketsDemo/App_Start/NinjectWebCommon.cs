@@ -65,7 +65,7 @@ namespace TicketsDemo.App_Start
         private static void RegisterServices(IKernel kernel)
         {
             kernel.Bind<ITicketRepository>().To<TicketRepository>();
-            kernel.Bind<ITrainRepository>().To<TrainRepository>();
+            kernel.Bind<ITrainRepository>().To<TicketsDemoXML.RepositoryXML.TrainRepositoryXML>();
 
             kernel.Bind<IRunRepository>().To<RunRepository>();
             kernel.Bind<IReservationRepository>().To<ReservationRepository>();
@@ -75,7 +75,7 @@ namespace TicketsDemo.App_Start
             kernel.Bind<IReservationService>().To<ReservationService>();
 
             //todo factory
-            kernel.Bind<IPriceCalculationStrategy>().To<DefaultPriceCalculationStrategy>();
+            kernel.Bind<IPriceCalculationStrategy>().To<DefaultPriceCalculationDecorator>();
             kernel.Bind<ILogger>().ToMethod(x =>
                 new FileLogger(HttpContext.Current.Server.MapPath("~/App_Data")));
         }        
