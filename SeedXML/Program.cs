@@ -59,7 +59,9 @@ namespace SeedXML
                           DefaultPrice = 130m,
                           Number = 4,
                       }
-                  }
+                  },
+                  CompanyMargin = new CompanyMargin { Id = 1, Margin = 0.1m }
+
               });
             trains.Add(new Train
             {
@@ -84,7 +86,8 @@ namespace SeedXML
                           DefaultPrice = 40m,
                           Number = 3,
                       }
-                  }
+                  },
+                CompanyMargin = new CompanyMargin { Id = 2, Margin = 0.15m }
             });
 
             XmlSerializer serializer = new XmlSerializer(typeof(List<Train>));

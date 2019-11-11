@@ -35,6 +35,8 @@ namespace TicketsDemo.EF
             modelBuilder.Entity<Ticket>().HasMany(x => x.PriceComponents).WithRequired(x => x.Ticket);
 
             modelBuilder.Entity<Reservation>();
+
+            modelBuilder.Entity<CompanyMargin>().HasRequired(m => m.Train).WithOptional(t => t.CompanyMargin);
         } 
 
     }

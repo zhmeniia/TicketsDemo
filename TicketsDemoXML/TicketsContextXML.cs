@@ -15,10 +15,10 @@ namespace TicketsDemoXML
         public List<Train> Trains { get; set; } 
         
 
-        // тут буде колекція якась
+        
         public TicketsContextXML()
         {
-            // тут буде зчитування файла
+            
             XmlSerializer serializer = new XmlSerializer(typeof(List<Train>));
 
             using (FileStream stream = File.OpenRead("C:/Users/Admin/Desktop/TicketsDemo-master/TicketsDemo-master/TicketsDemoXML/bin/Debug/Trains.xml"))

@@ -46,6 +46,7 @@ namespace TicketsDemoXML.RepositoryXML
                 }
                 c.Train = train;
             }
+            train.CompanyMargin.Train = train;
             return train;
         }
 

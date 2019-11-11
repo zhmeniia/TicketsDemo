@@ -13,5 +13,6 @@ namespace TicketsDemo.Data.Entities
         public string StartLocation { get; set; }
         public string EndLocation { get; set; }
         public List<Carriage> Carriages { get; set; }
+        public CompanyMargin CompanyMargin { get; set; }
     }
 }
